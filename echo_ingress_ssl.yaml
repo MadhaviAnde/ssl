@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+name: echo
+  namespace: development
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+    acme.cert-manager.io/http01-edit-in-place: "true"
+    cert-manager.io/cluster-issuer: "acme-clusterissuer-http01"
+  labels:
+    use-http01-solver: "true"
+spec:
+  tls:
+  - hosts:
+    - "test.pradeep5121.xyz"
+    secretName: test-pradeep-secrete
+  rules:
+  - host: "test.pradeep5121.xyz"
+    http:
+paths:
+- path: /
+pathType: Prefix
+backend:
+service:
+name: apple-service
+port:
+number: 5678
